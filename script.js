@@ -1,14 +1,15 @@
-// const num1 = prompt(`num1: `);
-// const op = prompt(`operator: `);
-// const num2 = prompt(`num2: `);
-
-// console.log(operate(num1, op, num2));
-
+// variables
+let num1, op, num2;
 let result = 0;
 const display = document.querySelector('p');
 const numContainer = document.querySelector('.numbers');
 const numBtns = numContainer.querySelectorAll('button');
+const opContainer = document.querySelector('.operators');
+const opBtns = opContainer.querySelectorAll('button');
+const eqBtn = document.querySelector('.equals');
+const clearBtn = document.querySelector('.clear');
 
+// buttons
 numBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         if(display.innerText.includes('.') && btn.innerText === '.'){
@@ -23,6 +24,15 @@ numBtns.forEach(btn => {
     });
 });
 
+opBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        num1 = Number(display.innerText);
+        display.innerText = '0';
+        op = btn.innerText;
+    });
+});
+
+// functions
 function add(num1, num2){
     return num1 + num2;
 }
