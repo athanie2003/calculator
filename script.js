@@ -1,8 +1,8 @@
-const num1 = prompt(`num1: `);
-const op = prompt(`operator: `);
-const num2 = prompt(`num2: `);
+// const num1 = prompt(`num1: `);
+// const op = prompt(`operator: `);
+// const num2 = prompt(`num2: `);
 
-console.log(operate(num1, op, num2));
+// console.log(operate(num1, op, num2));
 
 
 function add(num1, num2){
