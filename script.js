@@ -1,5 +1,6 @@
 // variables
-let num1, op, num2;
+let num1 = num2 = 0;
+let op = "+";
 let flag = true;
 let result = 0;
 const display = document.querySelector('p');
@@ -39,6 +40,12 @@ eqBtn.addEventListener('click', () => {
     display.innerText = operate(num1, op, num2);
 });
 
+clearBtn.addEventListener('click', () => {
+    display.innerText = '0';
+    num1, num2 = 0;
+    op = '+';
+});
+
 // functions
 function add(num1, num2){
     return num1 + num2;
@@ -64,14 +71,5 @@ function operate(num1, op, num2){
         "÷": divide(num1, num2)
     };
 
-    if(!operations[op] || isNaN(num1) || isNaN(num2)){
-        return NaN;
-    }
-
     return operations[op];
 }
-
-// console.log(add(3,5));
-// console.log(subtract(3,5));
-// console.log(multiply(3,5));
-// console.log(divide(3,5));
