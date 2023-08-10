@@ -1,5 +1,6 @@
 // variables
 let num1, op, num2;
+let flag = true;
 let result = 0;
 const display = document.querySelector('p');
 const numContainer = document.querySelector('.numbers');
@@ -15,8 +16,9 @@ numBtns.forEach(btn => {
         if(display.innerText.includes('.') && btn.innerText === '.'){
 
         }
-        else if(display.innerText === '0' && btn.innerText !== '.'){
+        else if((display.innerText === '0' && btn.innerText !== '.') || flag){
             display.innerText = btn.innerText;
+            flag = !flag;
         }
         else{
             display.innerText += btn.innerText;
@@ -27,9 +29,14 @@ numBtns.forEach(btn => {
 opBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         num1 = Number(display.innerText);
-        display.innerText = '0';
+        flag = !flag;
         op = btn.innerText;
     });
+});
+
+eqBtn.addEventListener('click', () => {
+    num2 = Number(display.innerText);
+    display.innerText = operate(num1, op, num2);
 });
 
 // functions
@@ -53,8 +60,8 @@ function operate(num1, op, num2){
     const operations = {
         "+": add(num1, num2),
         "-": subtract(num1, num2),
-        "*": multiply(num1, num2),
-        "/": divide(num1, num2)
+        "×": multiply(num1, num2),
+        "÷": divide(num1, num2)
     };
 
     if(!operations[op] || isNaN(num1) || isNaN(num2)){
