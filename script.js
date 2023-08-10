@@ -1,7 +1,6 @@
 // variables
 let num1 = num2 = 0;
 let op = "+";
-let flag = true;
 let result = 0;
 const display = document.querySelector('p');
 const numContainer = document.querySelector('.numbers');
@@ -10,6 +9,7 @@ const opContainer = document.querySelector('.operators');
 const opBtns = opContainer.querySelectorAll('button');
 const eqBtn = document.querySelector('.equals');
 const clearBtn = document.querySelector('.clear');
+const delBtn = document.querySelector('.delete');
 
 // buttons
 numBtns.forEach(btn => {
@@ -17,9 +17,8 @@ numBtns.forEach(btn => {
         if(display.innerText.includes('.') && btn.innerText === '.'){
 
         }
-        else if((display.innerText === '0' && btn.innerText !== '.') || flag){
+        else if((display.innerText === '0' && btn.innerText !== '.')){
             display.innerText = btn.innerText;
-            flag = !flag;
         }
         else{
             display.innerText += btn.innerText;
@@ -30,7 +29,7 @@ numBtns.forEach(btn => {
 opBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         num1 = Number(display.innerText);
-        flag = !flag;
+        display.innerText = '0';
         op = btn.innerText;
     });
 });
@@ -38,12 +37,23 @@ opBtns.forEach(btn => {
 eqBtn.addEventListener('click', () => {
     num2 = Number(display.innerText);
     display.innerText = operate(num1, op, num2);
+    num1, num2 = 0;
+    op = '+';
 });
 
 clearBtn.addEventListener('click', () => {
     display.innerText = '0';
     num1, num2 = 0;
     op = '+';
+});
+
+delBtn.addEventListener('click', () => {
+    if(display.innerText.length === 1){
+        display.innerText = '0';
+    }
+    else{
+        display.innerText = display.innerText.slice(0, -1);
+    }
 });
 
 // functions
