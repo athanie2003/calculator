@@ -56,8 +56,9 @@ eqBtn.addEventListener('click', () => {
 
 clearBtn.addEventListener('click', () => {
     display.innerText = '0';
-    num1, num2 = 0;
+    num1 = num2 = 0;
     op = '+';
+    flag = !flag;
 });
 
 delBtn.addEventListener('click', () => {
