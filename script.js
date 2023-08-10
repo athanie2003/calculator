@@ -1,7 +1,7 @@
 // variables
 let num1 = num2 = 0;
 let op = "+";
-let result = 0;
+let flag = true;
 const display = document.querySelector('p');
 const numContainer = document.querySelector('.numbers');
 const numBtns = numContainer.querySelectorAll('button');
@@ -17,8 +17,9 @@ numBtns.forEach(btn => {
         if(display.innerText.includes('.') && btn.innerText === '.'){
 
         }
-        else if((display.innerText === '0' && btn.innerText !== '.')){
+        else if((display.innerText === '0' && btn.innerText !== '.' || flag)){
             display.innerText = btn.innerText;
+            flag = !flag;
         }
         else{
             display.innerText += btn.innerText;
@@ -28,8 +29,19 @@ numBtns.forEach(btn => {
 
 opBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-        num1 = Number(display.innerText);
-        display.innerText = '0';
+        if(num1 !== 0){
+            if(num2 !== null){
+                num2 = Number(display.innerText);
+            }
+            num1 = operate(num1, op, num2);
+            display.innerText = num1;
+            num2 = 0;
+        }
+        else{
+           num1 = Number(display.innerText); 
+        }
+        
+        flag = !flag;
         op = btn.innerText;
     });
 });
@@ -37,7 +49,8 @@ opBtns.forEach(btn => {
 eqBtn.addEventListener('click', () => {
     num2 = Number(display.innerText);
     display.innerText = operate(num1, op, num2);
-    num1, num2 = 0;
+    num1 = Number(display.innerText);
+    num2 = null;
     op = '+';
 });
 
