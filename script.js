@@ -4,6 +4,24 @@
 
 // console.log(operate(num1, op, num2));
 
+let result = 0;
+const display = document.querySelector('p');
+const numContainer = document.querySelector('.numbers');
+const numBtns = numContainer.querySelectorAll('button');
+
+numBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        if(display.innerText.includes('.') && btn.innerText === '.'){
+
+        }
+        else if(display.innerText === '0' && btn.innerText !== '.'){
+            display.innerText = btn.innerText;
+        }
+        else{
+            display.innerText += btn.innerText;
+        }
+    });
+});
 
 function add(num1, num2){
     return num1 + num2;
