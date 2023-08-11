@@ -38,13 +38,14 @@ document.addEventListener('keydown', (event) =>{
         }
     }
 
-    // if(pressedKey === "Enter"){
-    //     num2 = Number(display.innerText);
-    //     display.innerText = operate(num1, op, num2);
-    //     num1 = Number(display.innerText);
-    //     num2 = null;
-    //     op = '+';
-    // }
+    if(pressedKey === "Enter"){
+        event.preventDefault();
+        num2 = Number(display.innerText);
+        display.innerText = operate(num1, op, num2);
+        num1 = Number(display.innerText);
+        num2 = null;
+        op = '+';
+    }
 });
 
 // buttons
