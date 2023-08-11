@@ -10,6 +10,24 @@ const opBtns = opContainer.querySelectorAll('button');
 const eqBtn = document.querySelector('.equals');
 const clearBtn = document.querySelector('.clear');
 const delBtn = document.querySelector('.delete');
+const keys = document.querySelectorAll('.number');
+
+document.addEventListener('keydown', (event) =>{
+    if(/^[0-9.]$/.test(event.key)){
+        if(display.innerText.includes('.') && event.key === '.'){
+
+        }
+        else if((display.innerText === '0' && event.key !== '.' || flag)){
+            display.innerText = event.key;
+            flag = !flag;
+        }
+        else{
+            display.innerText += event.key;
+        }
+    }
+});
+
+
 
 // buttons
 numBtns.forEach(btn => {
