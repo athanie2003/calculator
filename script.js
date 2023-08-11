@@ -10,24 +10,42 @@ const opBtns = opContainer.querySelectorAll('button');
 const eqBtn = document.querySelector('.equals');
 const clearBtn = document.querySelector('.clear');
 const delBtn = document.querySelector('.delete');
-const keys = document.querySelectorAll('.number');
+// const keys = document.querySelectorAll('.number');
 
+//keys
 document.addEventListener('keydown', (event) =>{
-    if(/^[0-9.]$/.test(event.key)){
-        if(display.innerText.includes('.') && event.key === '.'){
-
+    const pressedKey  = event.key;
+    if(/^[0-9.]$/.test(pressedKey)){ // check if keys are from 0-9 or '.'
+        if(display.innerText.includes('.') && pressedKey === '.'){
+            // do nothing
         }
-        else if((display.innerText === '0' && event.key !== '.' || flag)){
-            display.innerText = event.key;
+        else if((display.innerText === '0' && pressedKey !== '.' || flag  && pressedKey !== '.')){
+            display.innerText = pressedKey;
             flag = !flag;
         }
         else{
-            display.innerText += event.key;
+            display.innerText += pressedKey;
         }
     }
+
+    if(pressedKey === "Backspace"){
+        if(display.innerText.length === 1){
+            display.innerText = '0';
+            flag = !flag;
+        }
+        else{
+            display.innerText = display.innerText.slice(0, -1);
+        }
+    }
+
+    // if(pressedKey === "Enter"){
+    //     num2 = Number(display.innerText);
+    //     display.innerText = operate(num1, op, num2);
+    //     num1 = Number(display.innerText);
+    //     num2 = null;
+    //     op = '+';
+    // }
 });
-
-
 
 // buttons
 numBtns.forEach(btn => {
@@ -82,6 +100,7 @@ clearBtn.addEventListener('click', () => {
 delBtn.addEventListener('click', () => {
     if(display.innerText.length === 1){
         display.innerText = '0';
+        flag = !flag;
     }
     else{
         display.innerText = display.innerText.slice(0, -1);
