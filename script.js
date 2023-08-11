@@ -1,6 +1,7 @@
 // variables
 let num1 = num2 = 0;
-let op = "+";
+let op = "";
+let equation = "0";
 let flag = true;
 const display = document.querySelector('p');
 const numContainer = document.querySelector('.numbers');
@@ -10,9 +11,8 @@ const opBtns = opContainer.querySelectorAll('button');
 const eqBtn = document.querySelector('.equals');
 const clearBtn = document.querySelector('.clear');
 const delBtn = document.querySelector('.delete');
-// const keys = document.querySelectorAll('.number');
 
-//keys
+// keys
 document.addEventListener('keydown', (event) =>{
     const pressedKey  = event.key;
     if(/^[0-9.]$/.test(pressedKey)){ // check if keys are from 0-9 or '.'
@@ -39,12 +39,14 @@ document.addEventListener('keydown', (event) =>{
     }
 
     if(pressedKey === "Enter"){
-        event.preventDefault();
-        num2 = Number(display.innerText);
-        display.innerText = operate(num1, op, num2);
-        num1 = Number(display.innerText);
-        num2 = null;
-        op = '+';
+        event.preventDefault(); // prevents previously pressed button from being pressed again
+        if(op !== ''){
+            if(num2 === 0){
+                num2 = Number(display.innerText);
+            }
+            display.innerText = operate(num1, op, num2);
+            num1 = Number(display.innerText);
+        }
     }
 });
 
@@ -54,47 +56,51 @@ numBtns.forEach(btn => {
         if(display.innerText.includes('.') && btn.innerText === '.'){
 
         }
-        else if((display.innerText === '0' && btn.innerText !== '.' || flag)){
+        else if((display.innerText === '0' && btn.innerText !== '.' || flag  && btn.innerText !== '.')){
             display.innerText = btn.innerText;
+            equation = btn.innerText;
             flag = !flag;
         }
         else{
             display.innerText += btn.innerText;
+            equation += btn.innerText;
         }
     });
 });
 
 opBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        if(num1 !== 0){
-            if(num2 !== null){
-                num2 = Number(display.innerText);
-            }
+    btn.addEventListener('click', () => {     
+        let arr = equation.split('');
+        if(num1 !== 0 && op !== '' && !isNaN(arr[arr.length-1])){
+            num2 = Number(display.innerText);
             num1 = operate(num1, op, num2);
-            display.innerText = num1;
             num2 = 0;
+            display.innerText = num1;
         }
         else{
            num1 = Number(display.innerText); 
         }
-        
         flag = !flag;
         op = btn.innerText;
+        equation += btn.innerText;
     });
 });
 
 eqBtn.addEventListener('click', () => {
-    num2 = Number(display.innerText);
-    display.innerText = operate(num1, op, num2);
-    num1 = Number(display.innerText);
-    num2 = null;
-    op = '+';
+    if(op !== ''){
+        if(num2 === 0){
+            num2 = Number(display.innerText);
+        }
+        display.innerText = operate(num1, op, num2);
+        num1 = Number(display.innerText);
+    }
 });
 
 clearBtn.addEventListener('click', () => {
     display.innerText = '0';
     num1 = num2 = 0;
-    op = '+';
+    op = '';
+    equation = '0';
     flag = !flag;
 });
 
@@ -102,9 +108,11 @@ delBtn.addEventListener('click', () => {
     if(display.innerText.length === 1){
         display.innerText = '0';
         flag = !flag;
+        equation = '0';
     }
     else{
         display.innerText = display.innerText.slice(0, -1);
+        equation = equation.slice(0, -1);
     }
 });
 
