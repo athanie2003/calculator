@@ -2,16 +2,17 @@
 let num1 = num2 = 0;
 let op = "";
 let equation = "";
-let flag = false;
+let isDefault = false;
 let reset = false;
 const display = document.querySelector('p');
 const numContainer = document.querySelector('.numbers');
 const numBtns = numContainer.querySelectorAll('button');
 const opContainer = document.querySelector('.operators');
 const opBtns = opContainer.querySelectorAll('button');
-const eqBtn = document.querySelector('.equals');
+const equalBtn = document.querySelector('.equals');
 const clearBtn = document.querySelector('.clear');
 const delBtn = document.querySelector('.delete');
+const negateBtn = document.querySelector('.sign');
 
 // // keys
 // document.addEventListener('keydown', (event) =>{
@@ -90,20 +91,19 @@ numBtns.forEach(btn => {
             reset = false;
         }
         if(btn.innerText === '.'){
-            flag = false;
+            isDefault = false;
         }
         // does not allow multiple decimals
         if(display.innerText.includes('.') && btn.innerText === '.'){
             if(btn.innerText === '.' && num2 === 0 && op !== ''){
                 display.innerText = '0.';
-                console.log(display.innerText);
-                flag = false;
+                isDefault = false;
             }
         }
         // change first digit
-        else if((display.innerText === '0' && btn.innerText !== '.' || flag && btn.innerText !== '.')){
+        else if((display.innerText === '0' && btn.innerText !== '.' || isDefault && btn.innerText !== '.')){
             display.innerText = btn.innerText;
-            flag = false;
+            isDefault = false;
             reset = false;
         }
         // add more digits
@@ -118,7 +118,7 @@ opBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         reset = false;    
         let arr = equation.split('');
-        if(num1 !== 0 && op !== '' && !isNaN(arr[arr.length-1]) && equation !== display.innerText && !reset){
+        if(num1 !== 0 && op !== '' && !isNaN(arr[arr.length-1]) && equation !== display.innerText){
             num2 = Number(display.innerText);
             num1 = operate(num1, op, num2);
             num2 = 0;
@@ -127,13 +127,13 @@ opBtns.forEach(btn => {
         else{
            num1 = Number(display.innerText); 
         }
-        flag = true;
+        isDefault = true;
         op = btn.innerText;
         equation += btn.innerText;
     });
 });
 
-eqBtn.addEventListener('click', () => {
+equalBtn.addEventListener('click', () => {
     if(op !== ''){
         if(num2 === 0){
             num2 = Number(display.innerText);
@@ -142,7 +142,7 @@ eqBtn.addEventListener('click', () => {
         num1 = Number(display.innerText);
         equation = display.innerText;
         num2 = 0;
-        flag = true;
+        isDefault = true;
         reset = true;
     }
 });
@@ -152,19 +152,23 @@ clearBtn.addEventListener('click', () => {
     num1 = num2 = 0;
     op = '';
     equation = '';
-    flag = true;
+    isDefault = true;
 });
 
 delBtn.addEventListener('click', () => {
     if(display.innerText.length === 1){
         display.innerText = '0';
-        flag = true;
+        isDefault = true;
         equation = '';
     }
     else{
         display.innerText = display.innerText.slice(0, -1);
         equation = equation.slice(0, -1);
     }
+});
+
+negateBtn.addEventListener('click', () => {
+    display.innerText = -Number(display.innerText);
 });
 
 // functions
@@ -175,10 +179,10 @@ function subtract(num1, num2){
     return (num1.toFixed(2)*100 - num2.toFixed(2)*100)/100;
 }
 function multiply(num1, num2){
-    return (num1.toFixed(2)*100 * num2.toFixed(2)*100)/100;
+    return (num1.toFixed(2) * num2.toFixed(2)*100)/100;
 }
 function divide(num1, num2){
-    return (num1.toFixed(2)*100 / num2.toFixed(2)*100)/100;
+    return (num1.toFixed(2) / num2.toFixed(2)*100)/100;
 }
 
 function operate(num1, op, num2){
