@@ -14,71 +14,98 @@ const clearBtn = document.querySelector('.clear');
 const delBtn = document.querySelector('.delete');
 const negateBtn = document.querySelector('.sign');
 
-// // keys
-// document.addEventListener('keydown', (event) =>{
-//     const pressedKey  = event.key;
-//     if(/^[0-9.]$/.test(pressedKey)){ // check if keys are from 0-9 or '.'
-//         if(display.innerText.includes('.') && pressedKey === '.'){
-//             // do nothing
-//         }
-//         else if((display.innerText === '0' && pressedKey !== '.' || flag  && pressedKey !== '.')){
-//             display.innerText = pressedKey;
-//             flag = false;
-//         }
-//         else{
-//             display.innerText += pressedKey;
-//         }
-//     }
+// keys
+document.addEventListener('keydown', (event) =>{
+    const pressedKey  = event.key;
+    if(/^[0-9.]$/.test(pressedKey)){ // check if keys are from 0-9 or '.'
+        if(reset){
+            num1 = 0;
+            op = '';
+            num2 = 0;
+            display.innerText = "0";
+            reset = false;
+        }
+        if(pressedKey === '.'){
+            isDefault = false;
+        }
+        // does not allow multiple decimals
+        if(display.innerText.includes('.') && pressedKey === '.'){
+            if(pressedKey === '.' && num2 === 0 && op !== ''){
+                display.innerText = '0.';
+                isDefault = false;
+            }
+        }
+        // change first digit
+        else if((display.innerText === '0' && pressedKey !== '.' || isDefault && pressedKey !== '.')){
+            display.innerText = pressedKey;
+            isDefault = false;
+            reset = false;
+        }
+        else if(pressedKey === '.' && num2 === 0 && op !== ''){
+            display.innerText = '0.';
+            isDefault = false;
+        }
+        // add more digits
+        else{
+            display.innerText += pressedKey;
+        }
+        equation += pressedKey;
+    }
 
-//     else if(pressedKey === "Backspace"){
-//         if(display.innerText.length === 1){
-//             display.innerText = '0';
-//             flag = true;
-//             equation = '';
-//         }
-//         else{
-//             display.innerText = display.innerText.slice(0, -1);
-//             equation = equation.slice(0, -1);
-//         }
-//     }
+    else if(pressedKey === "Backspace"){
+        if(display.innerText.length === 1){
+            display.innerText = '0';
+            isDefault = true;
+            equation = '';
+        }
+        else{
+            display.innerText = display.innerText.slice(0, -1);
+            equation = equation.slice(0, -1);
+        }
+    }
 
-//     else if(pressedKey === "Enter"){
-//         event.preventDefault(); // prevents previously pressed button from being pressed again
-//         if(op !== ''){
-//             if(num2 === 0){
-//                 num2 = Number(display.innerText);
-//             }
-//             display.innerText = operate(num1, op, num2);
-//             num1 = Number(display.innerText);
-//         }
-//     }
+    else if(pressedKey === "Enter"){
+        event.preventDefault(); // prevents previously pressed button from being pressed again
+        if(op !== ''){
+            if(num2 === 0){
+                num2 = Number(display.innerText);
+            }
+            display.innerText = operate(num1, op, num2);
+            num1 = Number(display.innerText);
+            equation = display.innerText;
+            num2 = 0;
+            isDefault = true;
+            reset = true;
+        }
+    }
 
-// else if(/[+\-*/]/.test(pressedKey)){
-//     let arr = equation.split('');
-//         if(num1 !== 0 && op !== '' && !isNaN(arr[arr.length-1])){
-//             num2 = Number(display.innerText);
-//             num1 = operate(num1, op, num2);
-//             num2 = 0;
-//             display.innerText = num1;
-//         }
-//         else{
-//            num1 = Number(display.innerText); 
-//         }
-//         flag = true;
-//         if(pressedKey === '*'){
-//             op = "×";
-//             equation += "×";
-//         }
-//         else if(pressedKey === '/'){
-//             op = "÷";
-//             equation += "÷";
-//         }
-//         else{
-//             op = pressedKey;
-//             equation += pressedKey;
-//         }
-// }
-// });
+    else if(/[+\-*/]/.test(pressedKey)){
+        reset = false;    
+        let arr = equation.split('');
+        if(num1 !== 0 && op !== '' && !isNaN(arr[arr.length-1]) && equation !== display.innerText){
+            num2 = Number(display.innerText);
+            num1 = operate(num1, op, num2);
+            num2 = 0;
+            display.innerText = num1;
+        }
+        else{
+            num1 = Number(display.innerText); 
+        }
+        isDefault = true;
+        if(pressedKey === '*'){
+            op = '×';
+            equation += '×';
+        }
+        else if(pressedKey === '/'){
+            op = '÷'
+            equation += '÷';
+        }
+        else{
+           op = pressedKey;
+           equation += pressedKey;
+        }
+    }
+});
 
 // buttons
 numBtns.forEach(btn => {
@@ -105,6 +132,10 @@ numBtns.forEach(btn => {
             display.innerText = btn.innerText;
             isDefault = false;
             reset = false;
+        }
+        else if(btn.innerText === '.' && num2 === 0 && op !== ''){
+            display.innerText = '0.';
+            isDefault = false;
         }
         // add more digits
         else{
