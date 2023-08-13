@@ -17,6 +17,8 @@ const negateBtn = document.querySelector('.sign');
 // keys
 document.addEventListener('keydown', (event) =>{
     const pressedKey  = event.key;
+
+    // number keys
     if(/^[0-9.]$/.test(pressedKey)){ // check if keys are from 0-9 or '.'
         if(reset){
             num1 = 0;
@@ -79,6 +81,7 @@ document.addEventListener('keydown', (event) =>{
         }
     }
 
+    // operation keys
     else if(/[+\-*/]/.test(pressedKey)){
         reset = false;    
         let arr = equation.split('');
@@ -149,6 +152,8 @@ opBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         reset = false;    
         let arr = equation.split('');
+
+        // allows multiple operations
         if(num1 !== 0 && op !== '' && !isNaN(arr[arr.length-1]) && equation !== display.innerText){
             num2 = Number(display.innerText);
             num1 = operate(num1, op, num2);
@@ -184,6 +189,11 @@ clearBtn.addEventListener('click', () => {
     op = '';
     equation = '';
     isDefault = true;
+    negateBtn.disabled = false;
+    delBtn.disabled = false;
+    numBtns.forEach(btn => btn.disabled = false);
+    opBtns.forEach(btn => btn.disabled = false);
+    equalBtn.disabled = false;
 });
 
 delBtn.addEventListener('click', () => {
@@ -226,6 +236,15 @@ function operate(num1, op, num2){
         "×": multiply(num1, num2),
         "÷": divide(num1, num2)
     };
+
+    if(isNaN(operations[op]) || !isFinite(operations[op])){
+        negateBtn.disabled = true;
+        delBtn.disabled = true;
+        numBtns.forEach(btn => btn.disabled = true);
+        opBtns.forEach(btn => btn.disabled = true);
+        equalBtn.disabled = true;
+        return 'Error';
+    }
 
     return operations[op];
 }
