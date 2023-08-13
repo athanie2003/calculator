@@ -210,6 +210,12 @@ delBtn.addEventListener('click', () => {
 
 negateBtn.addEventListener('click', () => {
     display.innerText = -Number(display.innerText);
+    if(reset){
+        num1 = display.innerText;
+        op = '';
+        num2 = 0;
+        reset = false;
+    }
 });
 
 // functions
