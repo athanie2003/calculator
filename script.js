@@ -52,6 +52,13 @@ document.addEventListener('keydown', (event) =>{
             display.innerText += pressedKey;
         }
         equation += pressedKey;
+        
+        if(display.innerText.length > 11){
+            display.style.overflowX = 'scroll';
+        }
+        else{
+            display.style.overflowX = 'visible';
+        }
     }
 
     else if(pressedKey === "Backspace"){
@@ -63,6 +70,12 @@ document.addEventListener('keydown', (event) =>{
         else{
             display.innerText = display.innerText.slice(0, -1);
             equation = equation.slice(0, -1);
+        }
+        if(display.innerText.length > 11){
+            display.style.overflowX = 'scroll';
+        }
+        else{
+            display.style.overflowX = 'visible';
         }
     }
 
@@ -78,6 +91,12 @@ document.addEventListener('keydown', (event) =>{
             num2 = 0;
             isDefault = true;
             reset = true;
+            if(display.innerText.length > 11){
+                display.style.overflowX = 'scroll';
+            }
+            else{
+                display.style.overflowX = 'visible';
+            }
         }
     }
 
@@ -123,6 +142,7 @@ numBtns.forEach(btn => {
         if(btn.innerText === '.'){
             isDefault = false;
         }
+
         // does not allow multiple decimals
         if(display.innerText.includes('.') && btn.innerText === '.'){
             if(btn.innerText === '.' && num2 === 0 && op !== ''){
@@ -130,21 +150,32 @@ numBtns.forEach(btn => {
                 isDefault = false;
             }
         }
+
         // change first digit
         else if((display.innerText === '0' && btn.innerText !== '.' || isDefault && btn.innerText !== '.')){
             display.innerText = btn.innerText;
             isDefault = false;
             reset = false;
         }
+
         else if(btn.innerText === '.' && num2 === 0 && op !== ''){
             display.innerText = '0.';
             isDefault = false;
         }
+
         // add more digits
         else{
             display.innerText += btn.innerText;
         }
+
         equation += btn.innerText;
+
+        if(display.innerText.length > 11){
+            display.style.overflowX = 'scroll';
+        }
+        else{
+            display.style.overflowX = 'visible';
+        }
     });
 });
 
@@ -180,10 +211,17 @@ equalBtn.addEventListener('click', () => {
         num2 = 0;
         isDefault = true;
         reset = true;
+        if(display.innerText.length > 11){
+            display.style.overflowX = 'scroll';
+        }
+        else{
+            display.style.overflowX = 'visible';
+        }
     }
 });
 
 clearBtn.addEventListener('click', () => {
+    display.style.overflowX = 'visible';
     display.innerText = '0';
     num1 = num2 = 0;
     op = '';
@@ -206,6 +244,12 @@ delBtn.addEventListener('click', () => {
         display.innerText = display.innerText.slice(0, -1);
         equation = equation.slice(0, -1);
     }
+    if(display.innerText.length > 11){
+        display.style.overflowX = 'scroll';
+    }
+    else{
+        display.style.overflowX = 'visible';
+    }
 });
 
 negateBtn.addEventListener('click', () => {
@@ -215,6 +259,12 @@ negateBtn.addEventListener('click', () => {
         op = '';
         num2 = 0;
         reset = false;
+    }
+    if(display.innerText.length > 11){
+        display.style.overflowX = 'scroll';
+    }
+    else{
+        display.style.overflowX = 'visible';
     }
 });
 
