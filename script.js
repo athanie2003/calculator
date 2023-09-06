@@ -43,10 +43,6 @@ document.addEventListener('keydown', (event) =>{
             isDefault = false;
             reset = false;
         }
-        else if(pressedKey === '.' && num2 === 0 && op !== ''){
-            display.innerText = '0.';
-            isDefault = false;
-        }
         // add more digits
         else{
             display.innerText += pressedKey;
@@ -156,11 +152,6 @@ numBtns.forEach(btn => {
             display.innerText = btn.innerText;
             isDefault = false;
             reset = false;
-        }
-
-        else if(btn.innerText === '.' && num2 === 0 && op !== ''){
-            display.innerText = '0.';
-            isDefault = false;
         }
 
         // add more digits
