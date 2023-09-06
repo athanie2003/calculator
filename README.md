@@ -8,7 +8,6 @@ Create a calculator to perform additon, subtraction, multiplication, and divisio
 Click on a number, an operation, another number, and the equal button to perform a simple calculation. The decimal button allows for decimal calculations. Using keys instead of the buttons work as well except for the '+/-' button. Press 'Enter' to use the equal button. If the calculator displays 'Error', press the 'AC' button.
 
 ## Future Changes
-- fix bug (decimal button changes to 0. for second number)
 - remove slider and use scientifc notation or bar
 - add exponent button
 - add fraction button
